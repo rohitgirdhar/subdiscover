@@ -93,7 +93,8 @@ for i=1:li
     outputimage = [classres,strrep(imagenames{i},'.jpg','.png')];
     outputlock = [classres,strrep(imagenames{i},'.jpg','.lock')];
     
-    if fileExists(outputimage) || ~makeDirOrFail(outputlock)
+    if (fileExists(outputimage) || ~makeDirOrFail(outputlock)) ...
+        && (~isfield(options, 'regenResults') || ~options.regenResults)
         continue;
     end
     
@@ -165,7 +166,9 @@ for i=1:li
                 H = zeros(cansize);
 
                 if dumpImages == 1
-                    imwrite(im(bbox(2):bbox(4),bbox(1):bbox(3),:),[transferedfolder,imnamepart,sprintf('_%03d_%03d_det',j,thisj),'.png']);
+                %    imwrite(im(bbox(2):bbox(4),bbox(1):bbox(3),:),[transferedfolder,imnamepart,sprintf('_%03d_%03d_det',j,thisj),'.png']);
+                % instead draw the whole image with a bounding box
+                    imwrite(drawBB(im, bbox), [transferedfolder,imnamepart,sprintf('_%03d_%03d_det',j,thisj),'.png']);
                 end
 
                 middetector = find(idx == clsLabel(id));

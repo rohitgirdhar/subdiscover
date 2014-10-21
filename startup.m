@@ -18,15 +18,17 @@ options = [];
 
 % time
 options.now = 0;
-options.timelimit = 10 * 3600; % time limit to run each component
+options.timelimit = 1000 * 3600; % time limit to run each component
 
 % seed
 options.fixedSeed = 1; % if use fixed random seed
 
 %% Below is the options for all paths, for new datasets you will have to set the path yourself
 % data
-options.datafolder = '/IUS/homes4/rohytg/projects/003_SelfieSeg/datasets/selfie_tiny/'; % PATH to the directory that contains all the datasets to run, in the format of PATH/DATASET/CATEGORY/,
+%options.datafolder = '/IUS/homes4/rohytg/projects/003_SelfieSeg/datasets/selfies_clean_mini/'; % PATH to the directory that contains all the datasets to run, in the format of PATH/DATASET/CATEGORY/,
 % e.g. PATH/Rubinstein100/Car/ has ONLY .jpg images, where PATH/Rubinstein100/Car/GroundTruth has .png ground truth.
+options.datafolder = '/IUS/homes4/rohytg/projects/003_SelfieSeg/datasets/selfies_fullbody/';
+%options.datafolder = '/IUS/homes4/rohytg/projects/003_SelfieSeg/datasets/selfies_tiny/';
 options.cachefolder = fullfile(pwd, 'CachesR/'); % cache intermediate files
 options.resultfolder = fullfile(pwd, 'ResultsR/'); % folder that holds the result
 options.eldafile = fullfile(pwd,'/subclass/elda/background.mat'); % background file for ELDA, representing the negative world
@@ -36,7 +38,7 @@ options.lsvmNegFolders = {'/IUS/homes4/rohytg/projects/003_SelfieSeg/datasets/Sc
 % elda Training/Testing
 options.initCandMeth = 'sed'; % full or sed, methods used for initial bboxes
 options.eldaFeat = 'HOG'; % HOG or CHOG, features used
-options.maxModelsOnes = 500; % how many detectors fire in parallel (trade-off between memory and time)
+options.maxModelsOnes = 500; % how many detectors fire in parallel (trade-off between memory and time) % < change if crash
 options.thresEdge = 0.99; % threshold if refinebox is used for each image
 options.bgSample = 2000;
 options.randomNeg = 300;
@@ -49,9 +51,9 @@ options.poolSbin = 8;
 options.ratioS = 0.5;
 options.ratioDK = 0.8; % how much of the data should be kept, so 0.8 means 20% of the data is noise
 options.sizeDK = 70; % if the cluster is too big, then probably you would still keep them, this is especially the case for large collections of data
-options.topN = 4; % (rohit) WHY?? number of top detections to be used
+options.topN = 10; % (rohit) WHY?? number of top detections to be used
 options.overlapDouble = 0.5; % maximum overlap between two patches in the same 'detection'
-options.sizeThres = 1; % (rohit) CHANGE THIS!!! threshold for the minimum number of instances in each cluster
+options.sizeThres = 5; % (rohit) CHANGE THIS!!! threshold for the minimum number of instances in each cluster
 options.maxIterMerge = 0.8; % probe clustering to get rid of bad images
 options.minIterMerge = 0.5; % final clustering for merging
 options.maxSimiMerge = 0.6; % final clustering for merging
@@ -64,7 +66,7 @@ options.cachebyte = 2*2^30;
 options.wlssvmM = 0;
 options.fgOverlap = 0.7;
 options.bFlipPos = 1;
-options.imSubDir = ''; % sub directory in each folder in options.lsvmNegFolders that contains images
+options.imSubDir = '/images'; % sub directory in each folder in options.lsvmNegFolders that contains images
 options.trainPath = 'train_path.mat';
 options.lowerNeg = 3; % starting index for negative images, not important
 options.higherNeg = 12; % ending index for negative images, not important
@@ -102,3 +104,6 @@ options.overlapDet = 0.5; % NMS to get the good detections
 options.ratioMax = 0.7; % ratio to the maxium number of detections for detection
 options.canSize = 200; % cannonical size for averaging the segmentation
 options.dumpTempImages = 1; % whether to dump the temp images
+
+options.regenResults = 1; % regenerate the final results
+
